@@ -1,31 +1,9 @@
-import argparse
+import click
 import os
 import re
 import sys
 import json
-
-import requests
-
-max_retry = 10
-
-headers = {
-    'User-Agent': 'boluobao/4.5.52(iOS;14.0)/appStore',
-    'Host': 'api.sfacg.com',
-    'Authorization': 'Basic YXBpdXNlcjozcyMxLXl0NmUqQWN2QHFlcg=='
-}
-NovelInfo = 'novels/{}?expand=chapterCount%2CbigBgBanner%2CbigNovelCover%2CtypeName%2Cintro%2Cfav%2Cticket' \
-            '%2CpointCount%2Ctags%2CsysTags%2Csignlevel%2Cdiscount%2CdiscountExpireDate%2CtotalNeedFireMoney' \
-            '%2Crankinglist%2CoriginTotalNeedFireMoney%2Cfirstchapter%2Clatestchapter%2Clatestcommentdate%2Cessaytag' \
-            '%2CauditCover%2CpreOrderInfo%2CcustomTag%2Ctopic%2CunauditedCustomtag%2ChomeFlag'
-
-
-def get(api_url):
-    api_url = 'https://api.sfacg.com/' + api_url.replace('https://api.sfacg.com/', '')
-    for i in range(max_retry):
-        try:
-            return requests.get(api_url, headers=headers).json()
-        except (OSError, TimeoutError, IOError) as error:
-            print("\nGet Error Retry: " + api_url)
+import headers
 
 
 def tag_(tag):
@@ -42,7 +20,7 @@ def re_novel_id(book_id: str):
 
 
 def search_book_id(novel_id: str):
-    response = get(NovelInfo.format(novel_id))
+    response = headers.get(headers.json_info["NovelInfo"].format(novel_id))
     if response['status']['httpCode'] == 200:
         print('书籍名称：', response['data']['novelName'])
         print('书籍序号：', response['data']['novelId'])
@@ -57,6 +35,20 @@ def search_book_id(novel_id: str):
 
     else:
         print(response['status']['msg'])
+
+
+def bookshelf():
+    response = headers.get(headers.json_info.get("Pockets"))
+    # print(response)
+    if response['status']['httpCode'] != 200:
+        return "[Ⅹ]cookie information is invalidated!"
+    for data in bookshelf['data']:
+        for novels in data['expand']['novels']:
+            authorName = novels['authorName']
+            novelName = novels['novelName']
+            novelId = novels['novelId']
+            bookshelfs = "\n书名：{}\n作者：{}\n序号：{}".format(novelName, authorName, novelId)
+            print(bookshelfs)
 
 
 def search_json(novel_id, code):
@@ -81,17 +73,22 @@ def search_json(novel_id, code):
         print('全订价格：', book_info['expand']['originTotalNeedFireMoney'])
 
 
-def main():
-    print('数据更新时间 2022-01-22')
-    parser = argparse.ArgumentParser()
-    parser.add_argument("book_id", help="please input the [novel id] or [novel url]")
-    args = parser.parse_args()
-    book_id = args.book_id
-    try:
-        search_json(*re_novel_id(book_id))
-    except KeyError:
-        print('搜索信息不存在')
+def shell():
+    inputs = sys.argv[1:]
+    if inputs[0] == "s" or inputs[0] == "search":
+        search_json(*re_novel_id(inputs[1]))
+    # elif inputs[0].startswith('fx'):
+    #     direction.WebRecommendation().wind_show_info()
+    # elif inputs[0].startswith('name'):
+    #     shell_book_name(inputs)
+    elif inputs[0] == "sf" or inputs[0] == "bookshelf":
+        bookshelf()
+    #     thumbs_up.Support().run_script() if mode else thumbs_up.Support()
+    # elif inputs[0].startswith('up'):
+    #     show_book_up_data(inputs)
+    else:
+        print(inputs[0], "不是有效命令")
 
 
 if __name__ == '__main__':
-    main()
+    shell()

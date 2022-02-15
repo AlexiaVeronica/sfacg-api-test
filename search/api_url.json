@@ -1,0 +1,8 @@
+{
+  "Host": "https://api.sfacg.com/",
+  "User-Agent": "boluobao/4.5.52(iOS;14.0)/appStore",
+  "Authorization": "Basic YXBpdXNlcjozcyMxLXl0NmUqQWN2QHFlcg==",
+  "max_retry": 10,
+  "NovelInfo": "novels/{}?expand=chapterCount%2CbigBgBanner%2CbigNovelCover%2CtypeName%2Cintro%2Cfav%2Cticket%2CpointCount%2Ctags%2CsysTags%2Csignlevel%2Cdiscount%2CdiscountExpireDate%2CtotalNeedFireMoney%2Crankinglist%2CoriginTotalNeedFireMoney%2Cfirstchapter%2Clatestchapter%2Clatestcommentdate%2Cessaytag%2CauditCover%2CpreOrderInfo%2CcustomTag%2Ctopic%2CunauditedCustomtag",
+  "Pockets": "https://api.sfacg.com/user/Pockets?expand=novels%2Cdiscount"
+}
