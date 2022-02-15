@@ -37,6 +37,21 @@ def search_book_id(novel_id: str):
         print(response['status']['msg'])
 
 
+def shell_book_name(inputs):
+    response = headers.get(headers.json_info.get("Search").format(inputs[1]))
+    for key, Value in response[0].items():
+        if key == 'weight':
+            continue
+        if key == 'expand':
+            if Value.get('tags'):
+                print("{0:<{2}}{1}".format('tags', ','.join(Value.get('tags')), 50))
+            print("{0:<{2}}{1}".format('typeName', Value.get('typeName'), 50))
+            print("{0:<{2}}{1}".format('sysTags', tag_(Value.get('sysTags')), 50))
+            print("{0:<{2}}{1}".format('intro', Value.get('intro'), 50))
+            continue
+        print("{0:<{2}}{1}".format(key, Value, 50))
+
+
 def bookshelf():
     response = headers.get(headers.json_info.get("Pockets"))
     # print(response)
@@ -73,14 +88,14 @@ def search_json(novel_id, code):
         print('全订价格：', book_info['expand']['originTotalNeedFireMoney'])
 
 
-def shell():
+def main():
     inputs = sys.argv[1:]
     if inputs[0] == "s" or inputs[0] == "search":
         search_json(*re_novel_id(inputs[1]))
     # elif inputs[0].startswith('fx'):
     #     direction.WebRecommendation().wind_show_info()
-    # elif inputs[0].startswith('name'):
-    #     shell_book_name(inputs)
+    elif inputs[0].startswith('n'):
+        shell_book_name(inputs)
     elif inputs[0] == "sf" or inputs[0] == "bookshelf":
         bookshelf()
     #     thumbs_up.Support().run_script() if mode else thumbs_up.Support()
@@ -91,4 +106,4 @@ def shell():
 
 
 if __name__ == '__main__':
-    shell()
+    main()

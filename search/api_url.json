@@ -4,5 +4,6 @@
   "Authorization": "Basic YXBpdXNlcjozcyMxLXl0NmUqQWN2QHFlcg==",
   "max_retry": 10,
   "NovelInfo": "novels/{}?expand=chapterCount%2CbigBgBanner%2CbigNovelCover%2CtypeName%2Cintro%2Cfav%2Cticket%2CpointCount%2Ctags%2CsysTags%2Csignlevel%2Cdiscount%2CdiscountExpireDate%2CtotalNeedFireMoney%2Crankinglist%2CoriginTotalNeedFireMoney%2Cfirstchapter%2Clatestchapter%2Clatestcommentdate%2Cessaytag%2CauditCover%2CpreOrderInfo%2CcustomTag%2Ctopic%2CunauditedCustomtag",
-  "Pockets": "https://api.sfacg.com/user/Pockets?expand=novels%2Cdiscount"
+  "Pockets": "https://api.sfacg.com/user/Pockets?expand=novels%2Cdiscount",
+  "Search": "search/novels/result?q={}&expand=novels%2Ccomics%2Calbums%2Cchatnovelstags%2CtypeName%2CauthorName%2Cintro%2Clatestchaptitle%2Clatestchapintro%2Ctags%2CsysTags&sort=hot&page=0&size=50&systagids="
 }
